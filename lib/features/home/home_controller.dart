@@ -11,6 +11,10 @@ final homeControllerProvider =
   return HomeController(ref.watch(homeRepositoryProvider), ref);
 });
 
+final getPDFsProvider = StreamProvider((ref) {
+  return ref.watch(homeRepositoryProvider).getPDFs();
+});
+
 class HomeController extends StateNotifier<bool> {
   final Ref ref;
   final HomeRepository homeRepository;

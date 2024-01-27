@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/features/home/pages/add_post_page.dart';
+import 'package:research/features/home/posts_list.dart';
 import 'package:research/theme/pallete.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -41,7 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           : IndexedStack(
               index: _page,
               children: const [
-                Text('Home'),
+                PostsList(),
                 Text('Top Researches'),
                 AddPostPage(),
                 Text('Profile'),

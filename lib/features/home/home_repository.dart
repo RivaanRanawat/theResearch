@@ -57,4 +57,14 @@ class HomeRepository {
       return left(Failure(message: e.toString()));
     }
   }
+
+  Stream<List<ResearchModel>> getPDFs() {
+    return firebaseFirestore.collection('researches').snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => ResearchModel.fromMap(e.data()),
+              )
+              .toList(),
+        );
+  }
 }
