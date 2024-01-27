@@ -47,6 +47,7 @@ dependencies:
   pdf: ^3.10.7
   syncfusion_flutter_pdf: ^24.1.47
   uuid: ^4.3.3
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
