@@ -1,4 +1,0 @@
-enum LoginType {
-  email,
-  google,
-}

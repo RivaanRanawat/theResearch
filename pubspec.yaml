@@ -41,6 +41,8 @@ dependencies:
   firebase_auth: ^4.16.0
   firebase_storage: ^11.6.0
   cloud_firestore: ^4.14.0
+  fpdart: ^1.1.0
+  flutter_riverpod: ^2.4.9
 
 dev_dependencies:
   flutter_test:
