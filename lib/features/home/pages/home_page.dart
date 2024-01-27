@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/auth/auth_controller.dart';
-import 'package:research/providers.dart';
+import 'package:research/features/home/pages/add_post_page.dart';
 import 'package:research/theme/pallete.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -15,11 +14,19 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(authControllerProvider.notifier).getData(context: context);
+    });
+  }
+
+  void navigatePage(int page) {
+    setState(() {
+      _page = page;
     });
   }
 
@@ -31,16 +38,13 @@ class _HomePageState extends ConsumerState<HomePage> {
       backgroundColor: Pallete.primaryColor.withOpacity(0.5),
       body: isLoading
           ? const Loader()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(ref.watch(currentUserModelProvider)!.email),
-                ElevatedButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  child: const Text('log out'),
-                ),
+          : IndexedStack(
+              index: _page,
+              children: const [
+                Text('Home'),
+                Text('Top Researches'),
+                AddPostPage(),
+                Text('Profile'),
               ],
             ),
       bottomNavigationBar: Container(
@@ -64,6 +68,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             backgroundColor: Pallete.secondaryColor,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.grey,
+            currentIndex: _page,
+            onTap: navigatePage,
             items: <BottomNavigationBarItem>[
               const BottomNavigationBarItem(
                 icon: Icon(
@@ -75,7 +81,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               const BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.search_outlined,
+                  Icons.trending_up_rounded,
                   size: 30.0,
                 ),
                 label: '',
@@ -87,7 +93,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        navigatePage(2);
+                      },
                       style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -106,20 +114,12 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               const BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.trending_up_outlined,
-                  size: 30.0,
-                ),
-                label: '',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
                   Icons.person_outline,
                   size: 30.0,
                 ),
                 label: '',
               ),
             ],
-            onTap: (page) {},
           ),
         ),
       ),

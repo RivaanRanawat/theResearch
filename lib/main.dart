@@ -36,11 +36,12 @@ class _MyAppState extends ConsumerState<MyApp> {
           data: (data) {
             return MaterialApp.router(
               title: 'theResearch',
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: Pallete.primaryColor,
+              theme: ThemeData.dark().copyWith(
+                primaryColor: Pallete.primaryColor,
+                scaffoldBackgroundColor: Pallete.primaryColor.withOpacity(0.5),
+                appBarTheme: AppBarTheme(
+                  backgroundColor: Pallete.primaryColor.withOpacity(0.5),
                 ),
-                useMaterial3: true,
               ),
               routerConfig: data != null ? loggedInRouter : loggedOutRouter,
             );
