@@ -136,6 +136,26 @@ class HomeRepository {
         .collection('researches')
         .doc(researchId)
         .collection('discussions')
+        .where('isRepliedTo', isEqualTo: false)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => DiscussionModel.fromMap(e.data()),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<DiscussionModel>> getDiscussionsByReplyId(
+    String researchId,
+    String repliedToId,
+  ) {
+    return firebaseFirestore
+        .collection('researches')
+        .doc(researchId)
+        .collection('discussions')
+        .where('repliedTo', isEqualTo: repliedToId)
         .snapshots()
         .map(
           (event) => event.docs

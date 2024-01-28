@@ -8,6 +8,7 @@ class DiscussionModel {
   final String researchId;
   final bool isRepliedTo;
   final String discussionId;
+  final String repliedTo;
   DiscussionModel({
     required this.text,
     required this.datePublished,
@@ -15,6 +16,7 @@ class DiscussionModel {
     required this.researchId,
     required this.isRepliedTo,
     required this.discussionId,
+    required this.repliedTo,
   });
 
   DiscussionModel copyWith({
@@ -24,6 +26,7 @@ class DiscussionModel {
     String? researchId,
     bool? isRepliedTo,
     String? discussionId,
+    String? repliedTo,
   }) {
     return DiscussionModel(
       text: text ?? this.text,
@@ -32,6 +35,7 @@ class DiscussionModel {
       researchId: researchId ?? this.researchId,
       isRepliedTo: isRepliedTo ?? this.isRepliedTo,
       discussionId: discussionId ?? this.discussionId,
+      repliedTo: repliedTo ?? this.repliedTo,
     );
   }
 
@@ -43,6 +47,7 @@ class DiscussionModel {
       'researchId': researchId,
       'isRepliedTo': isRepliedTo,
       'discussionId': discussionId,
+      'repliedTo': repliedTo,
     };
   }
 
@@ -55,12 +60,13 @@ class DiscussionModel {
       researchId: map['researchId'] as String,
       isRepliedTo: map['isRepliedTo'] as bool,
       discussionId: map['discussionId'] as String,
+      repliedTo: map['repliedTo'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'DiscussionModel(text: $text, datePublished: $datePublished, uid: $uid, researchId: $researchId, isRepliedTo: $isRepliedTo, discussionId: $discussionId)';
+    return 'DiscussionModel(text: $text, datePublished: $datePublished, uid: $uid, researchId: $researchId, isRepliedTo: $isRepliedTo, discussionId: $discussionId, repliedTo: $repliedTo)';
   }
 
   @override
@@ -72,7 +78,8 @@ class DiscussionModel {
         other.uid == uid &&
         other.researchId == researchId &&
         other.isRepliedTo == isRepliedTo &&
-        other.discussionId == discussionId;
+        other.discussionId == discussionId &&
+        other.repliedTo == repliedTo;
   }
 
   @override
@@ -82,7 +89,8 @@ class DiscussionModel {
         uid.hashCode ^
         researchId.hashCode ^
         isRepliedTo.hashCode ^
-        discussionId.hashCode;
+        discussionId.hashCode ^
+        repliedTo.hashCode;
   }
 
   String toJson() => json.encode(toMap());

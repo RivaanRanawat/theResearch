@@ -21,6 +21,13 @@ final getDiscussionsProvider = StreamProvider.family((ref, String researchId) {
   return ref.watch(homeRepositoryProvider).getDiscussions(researchId);
 });
 
+final getDiscussionsByReplyProvider =
+    StreamProvider.family((ref, (String, String) discussion) {
+  return ref
+      .watch(homeRepositoryProvider)
+      .getDiscussionsByReplyId(discussion.$1, discussion.$2);
+});
+
 class HomeController extends StateNotifier<bool> {
   final Ref ref;
   final HomeRepository homeRepository;
@@ -55,6 +62,7 @@ class HomeController extends StateNotifier<bool> {
     String comment,
     String researchId,
     bool isReplied,
+    String repliedTo,
     BuildContext context,
   ) async {
     final discussionModel = DiscussionModel(
@@ -62,8 +70,9 @@ class HomeController extends StateNotifier<bool> {
       datePublished: DateTime.now(),
       uid: ref.read(currentUserModelProvider)!.uid,
       researchId: researchId,
-      isRepliedTo: false,
+      isRepliedTo: isReplied,
       discussionId: const Uuid().v1(),
+      repliedTo: repliedTo,
     );
     final res = await homeRepository.comment(discussionModel);
     res.fold(
