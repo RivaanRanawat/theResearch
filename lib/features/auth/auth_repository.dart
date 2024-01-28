@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:research/common/error_failure.dart';
 import 'package:research/models/user_model.dart';
 import 'package:research/providers.dart';
@@ -11,15 +12,18 @@ final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
     firebaseAuth: ref.watch(firebaseAuthProvider),
     firebaseFirestore: ref.watch(firestoreProvider),
+    googleSignIn: ref.watch(googleSignInProvider),
   ),
 );
 
 class AuthRepository {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
+  final GoogleSignIn googleSignIn;
   const AuthRepository({
     required this.firebaseAuth,
     required this.firebaseFirestore,
+    required this.googleSignIn,
   });
 
   FutureEither<Map<String, dynamic>> getData(String uid) async {
@@ -135,6 +139,50 @@ class AuthRepository {
       );
 
       return right(null);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  FutureEither<UserModel> signInWithGoogle() async {
+    try {
+      UserCredential userCredential;
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      final googleAuth = await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      userCredential = await firebaseAuth.signInWithCredential(credential);
+
+      late UserModel userModel;
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          uid: userCredential.user!.uid,
+          email: userCredential.user!.email!,
+          fullName: userCredential.user!.displayName ?? 'No Name',
+        );
+
+        await firebaseFirestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(userModel.toMap());
+      } else {
+        print('oaaaaak');
+        final res = await getData(userCredential.user!.uid);
+        res.fold(
+          (l) => throw l.message,
+          (r) => userModel = UserModel.fromMap(r),
+        );
+      }
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
     } catch (e) {
       return left(Failure(message: e.toString()));
     }

@@ -57,5 +57,18 @@
 	<key>NSCameraUsageDescription
 	&lt;string&gt;To scan cards&lt;/string&gt;</key>
 	<string>To scan cards</string>
+	<key>GIDClientID</key>
+	<string>407655997460-psr86de2nbb61pfu1cui1e2spmm46a00.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.407655997460-psr86de2nbb61pfu1cui1e2spmm46a00</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

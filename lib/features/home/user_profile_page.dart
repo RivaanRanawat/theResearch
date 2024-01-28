@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/features/home/home_controller.dart';
 import 'package:research/features/home/post_card.dart';
+import 'package:research/providers.dart';
 
 class UserProfilePage extends ConsumerStatefulWidget {
   final String uid;
@@ -26,6 +26,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     if (researches == null) {
       return const Loader();
     }
+
+    final userId =
+        ref.watch(currentUserModelProvider.select((value) => value?.uid))!;
 
     return SafeArea(
       child: Padding(
@@ -97,28 +100,29 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    MaterialButton(
-                      elevation: 0,
-                      minWidth: double.maxFinite,
-                      height: 50,
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                      },
-                      color: Colors.blue,
-                      textColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
+                    if (widget.uid == userId)
+                      MaterialButton(
+                        elevation: 0,
+                        minWidth: double.maxFinite,
+                        height: 50,
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                        },
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                        ),
+                        child: const Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                      child: const Text(
-                        'Sign Out',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
                     if (researches.isNotEmpty)
                       Expanded(
                         child: Padding(

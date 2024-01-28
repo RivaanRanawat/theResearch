@@ -54,6 +54,15 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
+  Future<void> signInWithGoogle(BuildContext context) async {
+    state = true;
+    final res = await authRepository.signInWithGoogle();
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      ref.read(currentUserModelProvider.notifier).update((state) => r);
+    });
+  }
+
   Future<void> loginUser({
     required String email,
     required String password,

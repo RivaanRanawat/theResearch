@@ -109,7 +109,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         minWidth: double.maxFinite,
                         height: 50,
                         onPressed: () {
-                          // loginUser(type: LoginType.google, context: context);
+                          ref
+                              .read(authControllerProvider.notifier)
+                              .signInWithGoogle(context);
                         },
                         color: Colors.blue,
                         textColor: Colors.white,
