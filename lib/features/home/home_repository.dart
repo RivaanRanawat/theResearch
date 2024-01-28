@@ -60,7 +60,7 @@ class HomeRepository {
               "parts": [
                 {
                   "text":
-                      "Summarise the unstructured text I give to you in the next message in 150 words",
+                      "Summarise the text I give to you in the next message in 150 words in a formatted manner.",
                 },
                 {
                   "text": summary,
