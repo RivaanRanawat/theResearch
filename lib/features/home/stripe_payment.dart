@@ -42,7 +42,7 @@ class StripePaymentHandle {
       //STEP 3: Display Payment sheet
       displayPaymentSheet(value);
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -57,7 +57,7 @@ class StripePaymentHandle {
       );
 
       ref.read(authControllerProvider.notifier).updateUserData(user);
-    } on Exception catch (e) {
+    } catch (e) {
       // if (e is StripeException) {
       //   Fluttertoast.showToast(
       //       msg: 'Error from Stripe: ${e.error.localizedMessage}');
