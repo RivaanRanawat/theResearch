@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/home/home_controller.dart';
 import 'package:research/utils.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class AddPostPage extends ConsumerStatefulWidget {
   const AddPostPage({super.key});
@@ -51,7 +52,38 @@ class _AddPostPageState extends ConsumerState<AddPostPage> {
                         }
                       },
                       child: selectedFile != null
-                          ? Text(selectedFile!.path)
+                          ? Stack(
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.45,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    child: SfPdfViewer.file(selectedFile!),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedFile = null;
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           : DottedBorder(
                               borderType: BorderType.RRect,
                               radius: const Radius.circular(10),
