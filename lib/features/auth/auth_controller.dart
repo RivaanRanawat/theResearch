@@ -98,6 +98,7 @@ class AuthController extends StateNotifier<bool> {
   void updateFundingUsers(
     String otherUserId,
     int amountFunded,
+    String researchId,
     BuildContext context,
   ) async {
     final currentUser = ref.read(currentUserModelProvider);
@@ -106,6 +107,7 @@ class AuthController extends StateNotifier<bool> {
       currentUser.uid,
       otherUserId,
       amountFunded,
+      researchId,
     );
 
     res.fold(

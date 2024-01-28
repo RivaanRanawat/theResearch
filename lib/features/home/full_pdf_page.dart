@@ -84,6 +84,7 @@ class FullPDFPage extends ConsumerWidget {
                                                 .updateFundingUsers(
                                                   researchModel.uid,
                                                   fundingValue.toInt(),
+                                                  researchModel.id,
                                                   context,
                                                 );
                                           },

@@ -107,8 +107,13 @@ class AuthRepository {
     String currentUserId,
     String otherUserId,
     int amountFunded,
+    String researchId,
   ) async {
     try {
+      await firebaseFirestore.collection('researches').doc(researchId).update({
+        'fundingRaised': FieldValue.increment(amountFunded),
+      });
+
       await firebaseFirestore.collection('users').doc(currentUserId).update({
         'funding': FieldValue.increment(-amountFunded),
       });
