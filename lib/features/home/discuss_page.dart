@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/home/discuss_reply_page.dart';
 import 'package:research/features/home/home_controller.dart';
+import 'package:research/models/research_model.dart';
 import 'package:research/providers.dart';
 
 class DiscussPage extends ConsumerStatefulWidget {
-  final String postId;
+  final ResearchModel researchModel;
   const DiscussPage({
     super.key,
-    required this.postId,
+    required this.researchModel,
   });
 
   @override
@@ -22,6 +23,7 @@ class _DiscussPageState extends ConsumerState<DiscussPage> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Discussions'),
@@ -29,7 +31,7 @@ class _DiscussPageState extends ConsumerState<DiscussPage> {
       body: SafeArea(
         child: Column(
           children: [
-            ref.watch(getDiscussionsProvider(widget.postId)).when(
+            ref.watch(getDiscussionsProvider(widget.researchModel.id)).when(
                   data: (discussions) {
                     return Expanded(
                       child: ListView.builder(
@@ -42,7 +44,7 @@ class _DiscussPageState extends ConsumerState<DiscussPage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => DiscussReplyPage(
-                                    postId: widget.postId,
+                                    researchModel: widget.researchModel,
                                     originalDiscussionId: discuss.discussionId,
                                     originalDiscussionText: discuss.text,
                                   ),
@@ -50,12 +52,13 @@ class _DiscussPageState extends ConsumerState<DiscussPage> {
                               );
                             },
                             title: Text(discuss.text),
-                            trailing: discuss.uid == currentUser?.uid
-                                ? const Badge(
-                                    backgroundColor: Colors.blue,
-                                    label: Text('OP'),
-                                  )
-                                : null,
+                            trailing:
+                                widget.researchModel.uid == currentUser?.uid
+                                    ? const Badge(
+                                        backgroundColor: Colors.blue,
+                                        label: Text('OP'),
+                                      )
+                                    : null,
                           );
                         },
                       ),
@@ -98,7 +101,7 @@ class _DiscussPageState extends ConsumerState<DiscussPage> {
                   onPressed: () {
                     ref.read(homeControllerProvider.notifier).comment(
                           commentController.text.trim(),
-                          widget.postId,
+                          widget.researchModel.id,
                           false,
                           '',
                           context,

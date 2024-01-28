@@ -154,7 +154,7 @@ class FullPDFPage extends ConsumerWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => DiscussPage(
-                                postId: researchModel.id,
+                                researchModel: researchModel,
                               ),
                             ),
                           );

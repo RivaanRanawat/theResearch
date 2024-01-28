@@ -4,15 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:research/common/loader.dart';
 import 'package:research/features/home/home_controller.dart';
+import 'package:research/models/research_model.dart';
 import 'package:research/providers.dart';
 
 class DiscussReplyPage extends ConsumerStatefulWidget {
-  final String postId;
+  final ResearchModel researchModel;
   final String originalDiscussionId;
   final String originalDiscussionText;
   const DiscussReplyPage({
     super.key,
-    required this.postId,
+    required this.researchModel,
     required this.originalDiscussionId,
     required this.originalDiscussionText,
   });
@@ -37,7 +38,7 @@ class _DiscussReplyPageState extends ConsumerState<DiscussReplyPage> {
           children: [
             ref
                 .watch(getDiscussionsByReplyProvider((
-                  widget.postId,
+                  widget.researchModel.id,
                   widget.originalDiscussionId,
                 )))
                 .when(
@@ -50,12 +51,13 @@ class _DiscussReplyPageState extends ConsumerState<DiscussReplyPage> {
 
                           return ListTile(
                             title: Text(research.text),
-                            trailing: research.uid == currentUser?.uid
-                                ? const Badge(
-                                    backgroundColor: Colors.blue,
-                                    label: Text('OP'),
-                                  )
-                                : null,
+                            trailing:
+                                widget.researchModel.uid == currentUser?.uid
+                                    ? const Badge(
+                                        backgroundColor: Colors.blue,
+                                        label: Text('OP'),
+                                      )
+                                    : null,
                           );
                         },
                       ),
@@ -98,7 +100,7 @@ class _DiscussReplyPageState extends ConsumerState<DiscussReplyPage> {
                   onPressed: () {
                     ref.read(homeControllerProvider.notifier).comment(
                           commentController.text.trim(),
-                          widget.postId,
+                          widget.researchModel.id,
                           true,
                           widget.originalDiscussionId,
                           context,
