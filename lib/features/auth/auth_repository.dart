@@ -101,4 +101,29 @@ class AuthRepository {
       return left(Failure(message: e.toString()));
     }
   }
+
+  FutureVoid updateFundingUsers(
+    UserModel currentUser,
+    String currentUserId,
+    String otherUserId,
+    int amountFunded,
+  ) async {
+    try {
+      await firebaseFirestore.collection('users').doc(currentUserId).update({
+        'funding': FieldValue.increment(-amountFunded),
+      });
+
+      await firebaseFirestore.collection('users').doc(otherUserId).update({
+        'funding': FieldValue.increment(amountFunded),
+      });
+
+      currentUser = currentUser.copyWith(
+        funding: currentUser.funding - amountFunded,
+      );
+
+      return right(null);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
 }

@@ -94,4 +94,23 @@ class AuthController extends StateNotifier<bool> {
       ref.read(currentUserModelProvider.notifier).update((state) => r);
     });
   }
+
+  void updateFundingUsers(
+    String otherUserId,
+    int amountFunded,
+    BuildContext context,
+  ) async {
+    final currentUser = ref.read(currentUserModelProvider);
+    final res = await authRepository.updateFundingUsers(
+      currentUser!,
+      currentUser.uid,
+      otherUserId,
+      amountFunded,
+    );
+
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => showSnackBar(context, 'Funds transferred successfully!'),
+    );
+  }
 }
