@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -94,6 +95,29 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                           ],
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 20),
+                    MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: 50,
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      color: Colors.blue,
+                      textColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                      child: const Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     if (researches.isNotEmpty)
                       Expanded(

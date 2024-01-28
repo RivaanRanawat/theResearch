@@ -32,7 +32,7 @@ class _ShopPageState extends ConsumerState<ShopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buy trCoin'),
+        title: const Text('Buy TRToken'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
