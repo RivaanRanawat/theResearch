@@ -8,6 +8,7 @@ import 'package:research/features/home/posts_list.dart';
 import 'package:research/features/home/shop_page.dart';
 import 'package:research/features/home/top_researches_page.dart';
 import 'package:research/features/home/user_profile_page.dart';
+import 'package:research/providers.dart';
 import 'package:research/theme/pallete.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -44,12 +45,14 @@ class _HomePageState extends ConsumerState<HomePage> {
           ? const Loader()
           : IndexedStack(
               index: _page,
-              children: const [
-                PostsList(),
-                TopResearchesPage(),
-                AddPostPage(),
-                ShopPage(),
-                UserProfilePage(),
+              children: [
+                const PostsList(),
+                const TopResearchesPage(),
+                const AddPostPage(),
+                const ShopPage(),
+                UserProfilePage(
+                  uid: ref.watch(currentUserModelProvider)!.uid,
+                ),
               ],
             ),
       bottomNavigationBar: Container(

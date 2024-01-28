@@ -35,6 +35,14 @@ class AuthRepository {
     }
   }
 
+  Stream<UserModel> getUserDataById(String uid) {
+    return firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((event) => UserModel.fromMap(event.data()!));
+  }
+
   FutureEither<UserModel> signUpUser({
     required UserModel userModel,
   }) async {

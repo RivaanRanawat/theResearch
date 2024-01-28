@@ -32,6 +32,10 @@ final getTopPDFsProvider = StreamProvider.family((ref, String orderBy) {
   return ref.watch(homeRepositoryProvider).getTopPDFs(orderBy);
 });
 
+final getUserResearches = StreamProvider.family((ref, String uid) {
+  return ref.watch(homeRepositoryProvider).getUserResearches(uid);
+});
+
 class HomeController extends StateNotifier<bool> {
   final Ref ref;
   final HomeRepository homeRepository;

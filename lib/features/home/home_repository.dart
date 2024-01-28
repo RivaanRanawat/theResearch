@@ -121,6 +121,20 @@ class HomeRepository {
         );
   }
 
+  Stream<List<ResearchModel>> getUserResearches(String uid) {
+    return firebaseFirestore
+        .collection('researches')
+        .where('uid', isEqualTo: uid)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => ResearchModel.fromMap(e.data()),
+              )
+              .toList(),
+        );
+  }
+
   FutureEither<DiscussionModel> comment(
     DiscussionModel discussionModel,
   ) async {

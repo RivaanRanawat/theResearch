@@ -12,6 +12,10 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
 final authStateChangesProvider =
     StreamProvider((ref) => ref.watch(firebaseAuthProvider).authStateChanges());
 
+final getUserDataByIdProvider = StreamProvider.family((ref, String uid) {
+  return ref.watch(authRepositoryProvider).getUserDataById(uid);
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthRepository authRepository;
   final Ref ref;
