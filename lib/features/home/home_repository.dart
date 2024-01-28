@@ -107,6 +107,20 @@ class HomeRepository {
         );
   }
 
+  Stream<List<ResearchModel>> getTopPDFs(String orderBy) {
+    return firebaseFirestore
+        .collection('researches')
+        .orderBy(orderBy, descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => ResearchModel.fromMap(e.data()),
+              )
+              .toList(),
+        );
+  }
+
   FutureEither<DiscussionModel> comment(
     DiscussionModel discussionModel,
   ) async {

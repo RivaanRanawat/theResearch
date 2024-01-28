@@ -28,6 +28,10 @@ final getDiscussionsByReplyProvider =
       .getDiscussionsByReplyId(discussion.$1, discussion.$2);
 });
 
+final getTopPDFsProvider = StreamProvider.family((ref, String orderBy) {
+  return ref.watch(homeRepositoryProvider).getTopPDFs(orderBy);
+});
+
 class HomeController extends StateNotifier<bool> {
   final Ref ref;
   final HomeRepository homeRepository;

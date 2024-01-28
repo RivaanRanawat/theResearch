@@ -6,6 +6,8 @@ import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/features/home/pages/add_post_page.dart';
 import 'package:research/features/home/posts_list.dart';
 import 'package:research/features/home/shop_page.dart';
+import 'package:research/features/home/top_researches_page.dart';
+import 'package:research/features/home/user_profile_page.dart';
 import 'package:research/theme/pallete.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -44,10 +46,10 @@ class _HomePageState extends ConsumerState<HomePage> {
               index: _page,
               children: const [
                 PostsList(),
-                Text('Top Researches'),
+                TopResearchesPage(),
                 AddPostPage(),
                 ShopPage(),
-                Text('Profile'),
+                UserProfilePage(),
               ],
             ),
       bottomNavigationBar: Container(
