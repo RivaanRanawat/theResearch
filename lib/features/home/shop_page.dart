@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:research/features/home/stripe_payment.dart';
-import 'package:research/utils.dart';
 
 class ShopPage extends ConsumerStatefulWidget {
   const ShopPage({super.key});
@@ -16,13 +15,7 @@ class _ShopPageState extends ConsumerState<ShopPage> {
   void stripePay() async {
     try {
       selectedPrice = selectedPrice * 83;
-      await StripePaymentHandle(ref).stripeMakePayment(selectedPrice);
-      if (context.mounted) {
-        showSnackBar(
-          context,
-          ('\$${selectedPrice / 83} worth of tokens added to your account!'),
-        );
-      }
+      await StripePaymentHandle(ref).stripeMakePayment(selectedPrice, context);
     } catch (err) {
       throw Exception(err);
     }

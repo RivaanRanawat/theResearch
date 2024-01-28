@@ -6,13 +6,15 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/providers.dart';
 import 'package:research/secrets.dart';
+import 'package:research/utils.dart';
 
 class StripePaymentHandle {
   final WidgetRef ref;
   StripePaymentHandle(this.ref);
   Map<String, dynamic>? paymentIntent;
 
-  Future<void> stripeMakePayment(double selectedPrice) async {
+  Future<void> stripeMakePayment(
+      double selectedPrice, BuildContext context) async {
     try {
       await Stripe.instance.applySettings();
       final value = (selectedPrice).toInt().toString();
@@ -40,13 +42,13 @@ class StripePaymentHandle {
           .then((value) {});
 
       //STEP 3: Display Payment sheet
-      displayPaymentSheet(value);
+      displayPaymentSheet(value, context);
     } catch (e) {
-      // print(e.toString());
+      print(e.toString());
     }
   }
 
-  displayPaymentSheet(value) async {
+  displayPaymentSheet(value, context) async {
     try {
       // 3. display the payment sheet.
       await Stripe.instance.presentPaymentSheet();
@@ -57,6 +59,11 @@ class StripePaymentHandle {
       );
 
       ref.read(authControllerProvider.notifier).updateUserData(user);
+
+      showSnackBar(
+        context,
+        ('\$${value / 83} worth of tokens added to your account!'),
+      );
     } catch (e) {
       // if (e is StripeException) {
       //   Fluttertoast.showToast(
@@ -64,6 +71,7 @@ class StripePaymentHandle {
       // } else {
       //   Fluttertoast.showToast(msg: 'Unforeseen error: ${e}');
       // }
+      print(e);
     }
   }
 
