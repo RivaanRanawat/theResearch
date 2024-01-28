@@ -43,6 +43,7 @@ class _TopResearchesPageState extends ConsumerState<TopResearchesPage> {
             ].map<DropdownMenuItem<String>>((item) {
               return item;
             }).toList(),
+            underline: const SizedBox(),
           ),
         ],
       ),

@@ -98,7 +98,11 @@ class HomeRepository {
   }
 
   Stream<List<ResearchModel>> getPDFs() {
-    return firebaseFirestore.collection('researches').snapshots().map(
+    return firebaseFirestore
+        .collection('researches')
+        .orderBy('datePublished', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => ResearchModel.fromMap(e.data()),

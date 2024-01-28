@@ -18,6 +18,9 @@ class FullPDFPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: researchModel.fundingRaised != 0
+          ? AppBar(title: Text('\$${researchModel.fundingRaised} raised!'))
+          : null,
       body: SafeArea(
         child: Stack(
           children: [

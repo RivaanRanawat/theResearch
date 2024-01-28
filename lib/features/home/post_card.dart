@@ -1,6 +1,11 @@
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:research/features/auth/auth_repository.dart";
 import "package:research/features/home/full_pdf_page.dart";
+import "package:research/features/home/home_repository.dart";
+import "package:research/features/home/user_profile_page.dart";
 import "package:research/models/research_model.dart";
 import "package:syncfusion_flutter_pdfviewer/pdfviewer.dart";
 
@@ -72,17 +77,30 @@ class _PostCardState extends State<PostCard>
               Positioned(
                 left: 5,
                 top: 5,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text(
-                    widget.researchModel.title,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          body: UserProfilePage(
+                            uid: widget.researchModel.uid,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      widget.researchModel.title,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
