@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:research/common/loader.dart';
 import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/firebase_options.dart';
 import 'package:research/router.dart';
+import 'package:research/secrets.dart';
 import 'package:research/theme/pallete.dart';
 
 void main() async {
@@ -12,6 +14,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  Stripe.publishableKey = stripePublishableKey;
+  Stripe.merchantIdentifier = 'any string works';
+  // await Stripe.instance.applySettings();
   runApp(
     const ProviderScope(child: MyApp()),
   );

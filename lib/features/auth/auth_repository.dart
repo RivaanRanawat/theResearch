@@ -89,4 +89,16 @@ class AuthRepository {
       return left(Failure(message: e.toString()));
     }
   }
+
+  FutureEither<UserModel> updateUserData(UserModel userModel) async {
+    try {
+      await firebaseFirestore.collection('users').doc(userModel.uid).update(
+            userModel.toMap(),
+          );
+
+      return right(userModel);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
 }

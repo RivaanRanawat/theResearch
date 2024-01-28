@@ -1,1 +1,5 @@
 const geminiAPIKey = 'AIzaSyBDk9hnyRI7tZoSjSKHk1xsoU7FsDyAPvQ';
+const stripeAPIKey =
+    'sk_test_51Kw9TrSC2E8IDzypHF0BL2Qx9lHa0AXIn1ZzgINGdeMzn0EoxZLCORbyg10yQZXwoF6ThQ7Tj78oYGtePdeRRZF700oZC9o9cV';
+const stripePublishableKey =
+    'pk_test_51Kw9TrSC2E8IDzypyAzppGBmVV3FTBkfnm9hHbpNPSv13Voy1NLAnFPvzpZzHnm56eegEWWZ1PK2dj8QYY5GFkLl00y8PK8us8';

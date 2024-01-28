@@ -85,4 +85,13 @@ class AuthController extends StateNotifier<bool> {
       ref.read(currentUserModelProvider.notifier).update((state) => user);
     });
   }
+
+  Future<void> updateUserData(UserModel userModel) async {
+    state = true;
+    final res = await authRepository.updateUserData(userModel);
+    state = false;
+    res.fold((l) {}, (r) {
+      ref.read(currentUserModelProvider.notifier).update((state) => r);
+    });
+  }
 }

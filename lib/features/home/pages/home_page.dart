@@ -5,6 +5,7 @@ import 'package:research/common/loader.dart';
 import 'package:research/features/auth/auth_controller.dart';
 import 'package:research/features/home/pages/add_post_page.dart';
 import 'package:research/features/home/posts_list.dart';
+import 'package:research/features/home/shop_page.dart';
 import 'package:research/theme/pallete.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -45,7 +46,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 PostsList(),
                 Text('Top Researches'),
                 AddPostPage(),
-                Text('Shop'),
+                ShopPage(),
                 Text('Profile'),
               ],
             ),
@@ -102,7 +103,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        backgroundColor: Pallete.logoGreen,
+                        backgroundColor: Colors.blue,
                       ),
                       child: const Icon(
                         Icons.add,
