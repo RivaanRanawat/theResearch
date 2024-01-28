@@ -5,7 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:research/common/error_failure.dart';
+import 'package:research/models/discussion_model.dart';
 import 'package:research/models/research_model.dart';
+import 'package:research/models/user_model.dart';
 import 'package:research/providers.dart';
 import 'package:research/secrets.dart';
 import 'package:research/type_defs.dart';
@@ -70,7 +72,7 @@ class HomeRepository {
           ],
         }),
       );
-      print(res.body);
+
       final geminiSummarised =
           jsonDecode(res.body)['candidates'][0]['content']['parts'][0]['text'];
 
@@ -102,6 +104,51 @@ class HomeRepository {
                 (e) => ResearchModel.fromMap(e.data()),
               )
               .toList(),
+        );
+  }
+
+  FutureEither<DiscussionModel> comment(
+    DiscussionModel discussionModel,
+  ) async {
+    try {
+      await firebaseFirestore
+          .collection('researches')
+          .doc(discussionModel.researchId)
+          .update({
+        'commentCount': FieldValue.increment(1),
+      });
+
+      await firebaseFirestore
+          .collection('researches')
+          .doc(discussionModel.researchId)
+          .collection('discussions')
+          .doc(discussionModel.discussionId)
+          .set(discussionModel.toMap());
+
+      return right(discussionModel);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  Stream<List<DiscussionModel>> getDiscussions(String researchId) {
+    return firebaseFirestore
+        .collection('researches')
+        .doc(researchId)
+        .collection('discussions')
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => DiscussionModel.fromMap(e.data()),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<UserModel> getUserData(String userId) {
+    return firebaseFirestore.collection('users').doc(userId).snapshots().map(
+          (event) => UserModel.fromMap(event.data()!),
         );
   }
 }

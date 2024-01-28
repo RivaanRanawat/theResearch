@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:research/features/home/discuss_page.dart';
 import 'package:research/models/research_model.dart';
 import 'package:research/theme/pallete.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -61,13 +62,21 @@ class FullPDFPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // Stack(
+                    //   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
                       child: MaterialButton(
                         elevation: 0,
                         height: 50,
                         onPressed: () {
-                          // loginUser(type: LoginType.google, context: context);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => DiscussPage(
+                                postId: researchModel.id,
+                              ),
+                            ),
+                          );
                         },
                         color: Pallete.logoGreen,
                         textColor: Colors.white,
@@ -92,6 +101,14 @@ class FullPDFPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // Badge(
+                    //   backgroundColor: Colors.red,
+                    //   label: Text(
+                    //     researchModel.commentCount.toString(),
+                    //   ),
+                    // ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
