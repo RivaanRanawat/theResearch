@@ -173,7 +173,6 @@ class AuthRepository {
             .doc(userCredential.user!.uid)
             .set(userModel.toMap());
       } else {
-        print('oaaaaak');
         final res = await getData(userCredential.user!.uid);
         res.fold(
           (l) => throw l.message,

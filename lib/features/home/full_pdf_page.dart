@@ -66,11 +66,15 @@ class FullPDFPage extends ConsumerWidget {
                                           Slider(
                                             value: fundingValue,
                                             min: 0,
-                                            max: user.funding.toDouble(),
+                                            max: user.funding.toDouble() > 0
+                                                ? user.funding.toDouble()
+                                                : 0.1,
                                             thumbColor: Colors.blue,
                                             activeColor:
                                                 Colors.blue.withOpacity(0.7),
-                                            divisions: user.funding,
+                                            divisions: user.funding > 0
+                                                ? user.funding
+                                                : 1,
                                             label: '\$$fundingValue',
                                             onChanged: (val) {
                                               setS(() {
